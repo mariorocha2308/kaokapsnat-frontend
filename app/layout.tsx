@@ -6,7 +6,7 @@ import "./globals.css";
 const lexend = Lexend({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "KAOKAPSNAT",
+  title: "KAOKAPSNAT - Chat Social",
   description: "KAOKAPSNAT Online chat with your contacts in real time",
 };
 
