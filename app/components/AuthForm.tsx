@@ -1,5 +1,5 @@
 "use client";
-import { FormEvent, useState } from "react";
+import { useState } from "react";
 import { useRouter } from 'next/navigation'
 import { Tabs, Tab, Input, Button, Card, CardBody } from "@nextui-org/react";
 import { API } from "../api";
@@ -7,32 +7,26 @@ import { API } from "../api";
 const AuthForm = () => {
   const router = useRouter()
   const [selected, setSelected] = useState<string | number>("login");
-  const [credentials, setCredentials] = useState({
-    name: "",
-    phone: 0,
-    password: ""
+  const [credential, setCredential] = useState({
+    username: "",
   })
 
-  async function handleLogin(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-
-    await API.authentication.login(credentials)
-    router.push('/')
-  }
-
-  async function handleRegister(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-
-    await API.authentication.register(credentials)
-    setSelected('login')
+  async function handleLogin() {
+      await API.authentication.login(credential)
+      router.push('/')
+    }
+    
+  async function handleRegister() {
+      await API.authentication.register(credential)
+      router.push('/')
   }
 
   const eventInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCredentials({...credentials, [e.target.name]: e.target.value})
+    setCredential({...credential, [e.target.name]: e.target.value})
   }
 
   return ( 
-    <Card className="max-w-full w-[340px] h-[450px] bg-stone-950">
+    <Card className="max-w-full w-[350px] h-[250px] bg-stone-950">
       <CardBody className="overflow-hidden">
         <Tabs
           fullWidth
@@ -42,36 +36,20 @@ const AuthForm = () => {
           onSelectionChange={setSelected}
         >
           <Tab key="login" title="Login">
-            <form className="flex flex-col gap-4 mt-3" onSubmit={handleLogin}>
-              <Input isRequired label="Phone" placeholder="Enter your phone" type="number" name="phone" onChange={eventInput}/>
-              <Input
-                isRequired
-                label="Password"
-                placeholder="Enter your password"
-                type="password"
-                name="password"
-                onChange={eventInput}
-              />
+            <form className="flex flex-col h-[300px] mt-3">
+              <Input isRequired label="Username" placeholder="Enter your username" type="text" name="username" onChange={eventInput}/>
               <div className="flex gap-2 justify-end">
-                <Button fullWidth color="primary" type="submit">
-                  Login
+                <Button fullWidth color="primary" onClick={handleLogin}>
+                  Sign up
                 </Button>
               </div>
             </form>
           </Tab>
           <Tab key="sign-up" title="Sign up">
-            <form className="flex flex-col gap-4 h-[300px] mt-3" onSubmit={handleRegister}>
-              <Input isRequired label="Name" placeholder="Enter your name" type="text" name="name" onChange={eventInput}/>
-              <Input isRequired label="Phone" placeholder="Enter your phone" type="number" name="phone" onChange={eventInput}/>
-              <Input isRequired label="Password" placeholder="Enter your password" type="password" name="password" onChange={eventInput}/>
-              <Input
-                isRequired
-                label="Password"
-                placeholder="Confirm your password"
-                type="password"
-              />
+            <form className="flex flex-col h-[300px] mt-3">
+              <Input isRequired label="Username" placeholder="Enter your username" type="text" name="username" onChange={eventInput}/>
               <div className="flex gap-2 justify-end">
-                <Button fullWidth color="primary" type="submit">
+                <Button fullWidth color="primary" onClick={handleRegister}>
                   Sign up
                 </Button>
               </div>
