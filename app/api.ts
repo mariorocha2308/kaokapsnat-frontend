@@ -1,8 +1,9 @@
-import { setCookie } from 'cookies-next';
+import { ServerResponse, User } from './lib/types/user.type';
 
 export const API = {
   authentication: {
-    login: async (content: { username: string }) => {
+    login: async (content: User) => {
+      console.log(content)
       return fetch(`${process.env.API_URL_SERVERLESS}/auth/login`, {
         method: "POST",
         headers:{
@@ -11,11 +12,9 @@ export const API = {
         body: JSON.stringify(content)
       })
       .then(response => response.json())
-      .then(result => {
-        setCookie('isAuthenticated', result)
-      })
+      .then((result: ServerResponse) => result)
     },
-    register: async (content: { username: string }) => {
+    register: async (content: User) => {
       return fetch(`${process.env.API_URL_SERVERLESS}/auth/register`, {
         method: "POST",
         headers:{
@@ -24,7 +23,7 @@ export const API = {
         body: JSON.stringify(content)
       })
       .then(response => response.json())
-      .then(result => result)
+      .then((result: ServerResponse) => result)
     }
   }
 }
