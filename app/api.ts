@@ -27,9 +27,17 @@ export const API = {
   },
   contacts: {
     getContacts: async () => {
-      return fetch(`${process.env.API_URL_SERVERLESS}/user/all`)
+      return fetch(`${process.env.API_URL_SERVERLESS}/user/collection`)
       .then(response => response.json())
-      .then((result: ServerResponse) => result)
+      .then((result: ServerResponse) => {
+        return result.data.users?.map((user: User) => {
+          return {
+            _id: user._id,
+            nickname: user.nickname,
+            telephone: user.telephone
+          }
+        })
+      })
     }
   }
 }
